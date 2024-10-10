@@ -10,6 +10,7 @@ It was inspired by Blatano <https://github.com/leighklotz/blatano> and designed
 for The Pawn Shop in San Francisco. The project utilizes libraries like
 `WS2812FX` for LED control and `BLEDevice` for BLE scanning.
 
+![](docs/first-article.jpg)
 
 
 ![](docs/pawn-shop-trinket.jpg)
