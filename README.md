@@ -1,10 +1,16 @@
 # The Pawn Shop Trinket
 
 ## Introduction
-This project is a simple Arduino sketch that interacts with an OLED screen and an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE) devices. It was inspired by The Pawn Shop in San Francisco. The project utilizes libraries like `WS2812FX` for LED control and `BLEDevice` for BLE scanning.
 
-* Inspired by Blatao <https://github.com/leighklotz/blatano>
-* Designed for The Pawn Shop, SF: <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
+This project is a simple Arduino sketch that interacts with an OLED screen and
+an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE)
+devices.
+
+It was inspired by Blatao <https://github.com/leighklotz/blatano> and designed
+for The Pawn Shop in San Francisco. The project utilizes libraries like
+`WS2812FX` for LED control and `BLEDevice` for BLE scanning.
+
+
 
 ![](docs/pawn-shop-trinket.jpg)
 
@@ -40,6 +46,7 @@ The sketch will periodically scan for BLE devices and display the number of devi
 - <https://github.com/01Space/ESP32-S3-0.42OLED>
 - <https://github.com/olikraus/u8g2/>
 - <https://usa-m.banggood.com/ESP32-S3-0_42-Inch-OLED-Development-Board-ESP-32-RISC-V-WiFi-Bluetooth-For-Arduin-Micropython-p-1978776.html> etc
+- The Pawn Shop, SF: <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
 
 ## Contributing
 Contributions are welcome! If you have any ideas, fixes, or improvements, please open an issue or submit a pull request.
