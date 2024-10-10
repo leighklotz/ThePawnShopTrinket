@@ -126,15 +126,11 @@ void drawPage2() {
     const int line_height = 20;
     const int strWidth = u8g2.getStrWidth(s);
     const int xPos = (u8g2.getWidth() - strWidth) / 2;
-    const int yPos = (u8g2.getHeight() - line_height) / 2;
+    const int yPos = ((u8g2.getHeight() - line_height) / 2) + 1;
 
     // Calculate radius of the circle
     const int circleDiameter = strWidth + 10; // Add 10 to string width for slightly larger circle
     const int circleRadius = circleDiameter / 2;
-
-    // Ensure the circle fits within the screen dimensions
-    const int maxX = (u8g2.getWidth() / 2);
-    const int maxY = (u8g2.getHeight() / 2);
 
     // Center the circle on the screen and adjust if needed to fit
     const int circleXPos = (u8g2.getWidth() - circleDiameter) / 2;
