@@ -39,8 +39,8 @@ int jitter_count = 0;
 
 // Macro to get jittered coordinates
 #define J(x,y) (x + jitter_x()), (y + jitter_y())
-#define jitter_x(jitter_count) ((jitter_count % 3) - 1)
-#define jitter_y(jitter_count) (((jitter_count / 3) % 3) - 1)
+#define jitter_x() ((jitter_count % 3) - 1)
+#define jitter_y() (((jitter_count / 3) % 3) - 1)
 
 U8G2_SSD1306_72X40_ER_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // EastRising 0.42" OLED
 
