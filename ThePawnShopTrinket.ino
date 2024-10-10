@@ -31,6 +31,7 @@
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
 const int LED_BRIGHTNESS = 2;
+const int DISPLAY_BRIGHTNESS = 10;
 
 
 // Hold down B button (non-LED side) on board, press R button (LED side) and release again
@@ -66,14 +67,12 @@ void setup() {
 void u8g2_init(void) {
   Wire.begin(SDA_PIN, SCL_PIN);
   u8g2.begin();
+  u8g2.setContrast(DISPLAY_BRIGHTNESS);
   setSmallFont();
   u8g2.setFontRefHeightExtendedText();
   u8g2.setDrawColor(1);
   u8g2.setFontPosTop();
   u8g2.setFontDirection(0);
-
-  u8g2.setDrawColor(1);
-
 }
 
 void led_init(void) {
