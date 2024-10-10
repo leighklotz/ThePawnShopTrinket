@@ -33,6 +33,12 @@ WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 const int LED_BRIGHTNESS = 2;
 const int DISPLAY_BRIGHTNESS = 10;
 
+// todo: pixel jitter +/- 1 to reduce OLED burn-in
+int x_jitter = 0;
+int y_jitter = 0;
+int x_counter = 0;
+#define J(x,y) (x+x_jitter), (y+y_jitter)
+
 
 // Hold down B button (non-LED side) on board, press R button (LED side) and release again
 // but keep on pressing B (non-LED side), trigger Arduino IDE to upload sketch,
@@ -87,8 +93,13 @@ void led_init(void) {
 }
 
 void loop() {
+  jitter();
+
+  // Print the URL and copyright notice
   Serial.println("<https://github.com/leighklotz/ThePawnShopTrinket>");
   Serial.println("Copyright Leigh Klotz <klotz@klotz.me> 2024");
+
+  // Function calls for drawing the logo and pages
   drawLogo();
   delay(2000);
   drawPage1();
@@ -97,15 +108,30 @@ void loop() {
   delay(3000);
 }
 
+void jitter() {
+  // Update x_jitter to cycle through [-1, 0, 1]
+  // Increment x_counter and check if it has completed one cycle
+  // Update y_jitter to cycle through [-1, 0, 1] after a full cycle of x_jitter
+  x_jitter = (x_jitter + 1 + 1) % 3 - 1;
+
+  x_counter = (x_counter + 1) % 3;
+
+  if (x_counter == 0) {
+    y_jitter = (y_jitter + 1 + 1) % 3 - 1;
+  }
+
+  Serial.printf("Jitter: %d,%d\n", J(0,0));
+}
+
 void drawPage1() {
   u8g2.clearBuffer();
 
   // Display the message
-  u8g2.drawStr(0, 0, "Welcome to the");
-  u8g2.drawStr(0, 8, "Prohibition Era!");
-  u8g2.drawStr(0, 16, "A time of speak-");
-  u8g2.drawStr(0, 24, "easies, gangsters");
-  u8g2.drawStr(0, 32, "and secrets.");
+  u8g2.drawStr(J(1, 1), "Welcome to the");
+  u8g2.drawStr(J(1, 8), "Prohibition Era!");
+  u8g2.drawStr(J(1, 16), "A time of speak-");
+  u8g2.drawStr(J(1, 24), "easies, gangsters");
+  u8g2.drawStr(J(1, 32), "and secrets.");
 
   u8g2.sendBuffer();
   ws2812fx.setColor(BLUE);
@@ -137,11 +163,11 @@ void drawPage2() {
     const int circleYPos = (u8g2.getHeight() - circleDiameter) / 2;
   
     // Draw the circle
-    u8g2.drawCircle(circleXPos + circleRadius, circleYPos + circleRadius, circleRadius);
+    u8g2.drawCircle(J(circleXPos + circleRadius, circleYPos + circleRadius), circleRadius);
 
 
     // Draw the string inside the circle
-    u8g2.drawStr(xPos, yPos, s);
+    u8g2.drawStr(J(xPos, yPos), s);
     u8g2.sendBuffer();
     setSmallFont();
   }
@@ -158,7 +184,7 @@ void drawLogo() {
   u8g2.setBitmapMode(false /* solid */);
   u8g2.setDrawColor(1); // White
   const int xpos = (u8g2.getWidth() - logo_bitmap_width) / 2;
-  u8g2.drawXBM(xpos, 0, logo_bitmap_width, logo_bitmap_height, logo_bitmap);
+  u8g2.drawXBM(J(xpos, 1), logo_bitmap_width, logo_bitmap_height, logo_bitmap);
   u8g2.sendBuffer();
 }
 
