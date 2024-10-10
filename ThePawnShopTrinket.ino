@@ -1,7 +1,7 @@
 /**
  * The Pawn Shop Trinket
  * Copyright Leigh Klotz <klotz@klotz.me> 2024
- * Inspired by Blatao <https://github.com/leighklotz/blatano> but designed for The Pawn Shop, SF:
+ * Inspired by Blatano <https://github.com/leighklotz/blatano> but designed for The Pawn Shop, SF:
  * <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
  */
 #include <Arduino.h>
