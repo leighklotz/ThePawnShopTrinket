@@ -26,13 +26,11 @@
 #define SDA_PIN 41
 #define SCL_PIN 40
 
-
-
 #include "logo.h"
 
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
-const int BRIGHTNESS = 2;
+const int LED_BRIGHTNESS = 2;
 
 
 // Hold down B button (non-LED side) on board, press R button (LED side) and release again
@@ -81,7 +79,7 @@ void u8g2_init(void) {
 void led_init(void) {
   // Initialize the LED
   ws2812fx.init();
-  ws2812fx.setBrightness(BRIGHTNESS);
+  ws2812fx.setBrightness(LED_BRIGHTNESS);
   ws2812fx.setMode(FX_MODE_STATIC);
   // RED GREEN BLUE WHITE BLACK YELLOW CYAN MAGENTA PURPLE ORANGE PINK GRAY ULTRAWHITE DIM DARK	
   ws2812fx.setColor(RED);
@@ -168,7 +166,6 @@ void drawLogo() {
   u8g2.drawXBM(xpos, 0, logo_bitmap_width, logo_bitmap_height, logo_bitmap);
   u8g2.sendBuffer();
 }
-
 
 /* 
  * BLE Count
