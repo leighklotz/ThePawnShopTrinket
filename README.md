@@ -6,7 +6,7 @@ This project is a simple Arduino sketch that interacts with an OLED screen and
 an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE)
 devices.
 
-It was inspired by Blatao <https://github.com/leighklotz/blatano> and designed
+It was inspired by Blatano <https://github.com/leighklotz/blatano> and designed
 for The Pawn Shop in San Francisco. The project utilizes libraries like
 `WS2812FX` for LED control and `BLEDevice` for BLE scanning.
 
