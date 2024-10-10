@@ -3,6 +3,7 @@
  * Copyright Leigh Klotz <klotz@klotz.me> 2024
  * Inspired by Blatano <https://github.com/leighklotz/blatano> but designed for The Pawn Shop, SF:
  * <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
+ * In Arduino, enable "Turn on CDC on Boot"
  */
 #include <Arduino.h>
 
@@ -33,21 +34,15 @@ WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 const int LED_BRIGHTNESS = 2;
 const int DISPLAY_BRIGHTNESS = 10;
 
-// todo: pixel jitter +/- 1 to reduce OLED burn-in
-int x_jitter = 0;
-int y_jitter = 0;
-int x_counter = 0;
-#define J(x,y) (x+x_jitter), (y+y_jitter)
+// pixel jitter +/- 1 to reduce OLED burn-in
+int jitter_count = 0;
 
-
-// Hold down B button (non-LED side) on board, press R button (LED side) and release again
-// but keep on pressing B (non-LED side), trigger Arduino IDE to upload sketch,
-// keep B (non-LED side) pressed until Arduino IDE says that it's connected.
-// Then you can release B button.(non-LED side) 
-
+// Macro to get jittered coordinates
+#define J(x,y) (x + jitter_x()), (y + jitter_y())
+#define jitter_x(jitter_count) ((jitter_count % 3) - 1)
+#define jitter_y(jitter_count) (((jitter_count / 3) % 3) - 1)
 
 U8G2_SSD1306_72X40_ER_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // EastRising 0.42" OLED
-
 
 BLEScan* pBLEScan;
 int scanTime = 5;  // scan time in seconds
@@ -106,18 +101,12 @@ void loop() {
   delay(3000);
 }
 
-// Update x_jitter and y_jitter to cycle through [-1, 0, 1]
+// Update the jitter_count to cycle through jitter values
 void jitter() {
-  x_jitter = (x_jitter + 1 + 1) % 3 - 1;
-
-  x_counter = (x_counter + 1) % 3;
-
-  if (x_counter == 0) {
-    y_jitter = (y_jitter + 1 + 1) % 3 - 1;
-  }
-
-  Serial.printf("Jitter: %d,%d\n", J(0,0));
+  jitter_count = (jitter_count + 1) % 9;  // 9 = 3x3 (3 values for x, and 3 for y)
+  Serial.printf("Jitter: %d,%d\n", jitter_x(), jitter_y());
 }
+
 
 void drawPage1() {
   u8g2.clearBuffer();
