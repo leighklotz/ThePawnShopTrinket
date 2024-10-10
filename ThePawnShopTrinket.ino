@@ -3,8 +3,10 @@
  * Copyright Leigh Klotz <klotz@klotz.me> 2024
  * Inspired by Blatano <https://github.com/leighklotz/blatano> but designed for The Pawn Shop, SF:
  * <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
+ * In Arduino, enable "Turn on CDC on Boot"
  */
 #include <Arduino.h>
+#include <math.h>
 
 #include "BLEUUID.h"
 #include "BLEDevice.h"
@@ -31,31 +33,31 @@
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
 
 const int LED_BRIGHTNESS = 2;
-const int DISPLAY_BRIGHTNESS = 10;
+const int DISPLAY_BRIGHTNESS = 12;
 
-// todo: pixel jitter +/- 1 to reduce OLED burn-in
-int x_jitter = 0;
-int y_jitter = 0;
-int x_counter = 0;
-#define J(x,y) (x+x_jitter), (y+y_jitter)
+// pixel jitter +/- 1 to reduce OLED burn-in
+int jitter_count = 0;
 
-
-// Hold down B button (non-LED side) on board, press R button (LED side) and release again
-// but keep on pressing B (non-LED side), trigger Arduino IDE to upload sketch,
-// keep B (non-LED side) pressed until Arduino IDE says that it's connected.
-// Then you can release B button.(non-LED side) 
-
+// Macro to get jittered coordinates
+#define J(x,y) (x + jitter_x()), (y + jitter_y())
+#define jitter_x() ((jitter_count % 3) - 1)
+#define jitter_y() (((jitter_count / 3) % 3) - 1)
 
 U8G2_SSD1306_72X40_ER_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // EastRising 0.42" OLED
 
-
 BLEScan* pBLEScan;
-int scanTime = 5;  // scan time in seconds
+int scanTime = 5;  // BLE scan time in seconds
 
+
+void selfIdentify() {
+  Serial.println("ThePawnShopTrinket");
+  Serial.println("<https://github.com/leighklotz/ThePawnShopTrinket>");
+  Serial.println("Copyright Leigh Klotz <klotz@klotz.me> 2024");
+}
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("ThePawnShopTrinket - Leigh Klotz <klotz@klotz.me>");
+  selfIdentify();
 
   led_init();
   u8g2_init();
@@ -95,9 +97,6 @@ void led_init(void) {
 void loop() {
   jitter();
 
-  Serial.println("<https://github.com/leighklotz/ThePawnShopTrinket>");
-  Serial.println("Copyright Leigh Klotz <klotz@klotz.me> 2024");
-
   drawLogo();
   delay(2000);
   drawPage1();
@@ -106,18 +105,15 @@ void loop() {
   delay(3000);
 }
 
-// Update x_jitter and y_jitter to cycle through [-1, 0, 1]
+// Update the jitter_count to cycle through jitter values
 void jitter() {
-  x_jitter = (x_jitter + 1 + 1) % 3 - 1;
-
-  x_counter = (x_counter + 1) % 3;
-
-  if (x_counter == 0) {
-    y_jitter = (y_jitter + 1 + 1) % 3 - 1;
+  jitter_count = (jitter_count + 1) % 9;  // 9 = 3x3 (3 values for x, and 3 for y)
+  if (jitter_count == 0) {
+    selfIdentify();
   }
-
-  Serial.printf("Jitter: %d,%d\n", J(0,0));
+  Serial.printf("Jitter: %d,%d\n", jitter_x(), jitter_y());
 }
+
 
 void drawPage1() {
   u8g2.clearBuffer();
@@ -141,6 +137,7 @@ void drawPage2() {
   int deviceCount = scanBLEDevices();
 
   // Draw the number of BLE devices found centered on the screen
+  // There are many magic constants here.
   {
     char s[32];
     setBigFont();
@@ -151,27 +148,46 @@ void drawPage2() {
     const int yPos = ((u8g2.getHeight() - line_height) / 2) + 1;
 
     // Calculate radius of the circle
-    const int circleDiameter = strWidth + 10; // Add 10 to string width for slightly larger circle
+    const int circleDiameter = max(strWidth + 4, 24);
     const int circleRadius = circleDiameter / 2;
 
-    // Center the circle on the screen and adjust if needed to fit
-    const int circleXPos = (u8g2.getWidth() - circleDiameter) / 2;
-    const int circleYPos = (u8g2.getHeight() - circleDiameter) / 2;
-  
-    // Draw the circle
-    u8g2.drawCircle(J(circleXPos + circleRadius, circleYPos + circleRadius), circleRadius);
+    {
+      // Parameters to control the circular path
+      const int path_radius = 4; // This controls how far the circle bounces from the center
+      const float angleIncrement = M_PI / 18; // How much to increase the angle for each step, in radians
+      const int centerX = u8g2.getWidth() / 2; // Center of the screen along the X-axis
+      const int centerY = u8g2.getHeight() / 2; // Center of the screen along the Y-axis
 
+      float angle = 0; // Starting angle
 
-    // Draw the string inside the circle
-    u8g2.drawStr(J(xPos, yPos), s);
+      // Draw in a circular motion
+      for (int i = 0; i < 36 * 6; ++i) { // 36 steps to complete a full circle
+	// Calculate the circular path offsets
+	int xo = centerX + int(path_radius * cos(angle));
+	int yo = centerY + int(path_radius * sin(angle));
+
+	u8g2.clearBuffer();
+
+	// Draw the circle at the calculated positions
+	u8g2.drawCircle(J(xo, yo), circleRadius);
+
+	// Draw the string inside the circle
+	u8g2.drawStr(J(xo - circleRadius/2 - strWidth/4, yo - circleRadius/2 - 1), s);
+
+	u8g2.sendBuffer();
+
+	angle += angleIncrement;
+
+	delay(20);
+      }
+    }
+    u8g2.clearBuffer();
     u8g2.sendBuffer();
-    setSmallFont();
   }
-
+  setSmallFont();
   ws2812fx.setColor(MAGENTA);
   ws2812fx.service();
 }
-
 
 void drawLogo() {
   ws2812fx.setColor(RED);
@@ -183,10 +199,6 @@ void drawLogo() {
   u8g2.drawXBM(J(xpos, 1), logo_bitmap_width, logo_bitmap_height, logo_bitmap);
   u8g2.sendBuffer();
 }
-
-/* 
- * BLE Count
- */
 
 void ble_init() {
   BLEDevice::init("");
@@ -202,11 +214,9 @@ int scanBLEDevices() {
 }
 
 void setSmallFont() {
-  // u8g2_font_6x10_tf,  u8g2_font_5x7_tf, u8g2_font_tiny5_tf, u8g2_font_u8glib_4_tf
   u8g2.setFont(u8g2_font_tiny5_tf);
 }
 
 void setBigFont() {
-  // u8g2_font_fur20_tn
   u8g2.setFont(u8g2_font_fur14_tn);
 }
