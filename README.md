@@ -18,9 +18,7 @@ for The Pawn Shop in San Francisco. The project utilizes libraries like
 - Arduino IDE (Latest version recommended)
 - Libraries:
   - `WS2812FX` for LED control
-  - `BLEDevice`, `BLEScan`, and `BLEUtils` for BLE scanning
   - `U8g2lib` for OLED display
-  - `SPI` and `Wire` for hardware interface with OLED and LED
 
 ## Setup
 1. Ensure you have the required libraries installed in the Arduino IDE.
