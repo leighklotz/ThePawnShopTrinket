@@ -6,6 +6,8 @@ This project is a simple Arduino sketch that interacts with an OLED screen and a
 * Inspired by Blatao <https://github.com/leighklotz/blatano>
 * Designed for The Pawn Shop, SF: <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
 
+![](docs/pawn-shop-trinket.jpg)
+
 ## Dependencies
 - Arduino IDE (Latest version recommended)
 - Libraries:
