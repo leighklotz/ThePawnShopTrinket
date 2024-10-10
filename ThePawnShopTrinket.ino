@@ -95,11 +95,9 @@ void led_init(void) {
 void loop() {
   jitter();
 
-  // Print the URL and copyright notice
   Serial.println("<https://github.com/leighklotz/ThePawnShopTrinket>");
   Serial.println("Copyright Leigh Klotz <klotz@klotz.me> 2024");
 
-  // Function calls for drawing the logo and pages
   drawLogo();
   delay(2000);
   drawPage1();
@@ -108,10 +106,8 @@ void loop() {
   delay(3000);
 }
 
+// Update x_jitter and y_jitter to cycle through [-1, 0, 1]
 void jitter() {
-  // Update x_jitter to cycle through [-1, 0, 1]
-  // Increment x_counter and check if it has completed one cycle
-  // Update y_jitter to cycle through [-1, 0, 1] after a full cycle of x_jitter
   x_jitter = (x_jitter + 1 + 1) % 3 - 1;
 
   x_counter = (x_counter + 1) % 3;
