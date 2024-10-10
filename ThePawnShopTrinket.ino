@@ -97,8 +97,7 @@ void loop() {
   drawPage1();
   delay(2000);
   drawPage2();
-  // Delay for a bit before refreshing the display
-  delay(2000);
+  delay(3000);
 }
 
 void drawPage1() {
