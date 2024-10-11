@@ -4,19 +4,19 @@
 
 This project is a simple Arduino sketch that interacts with an OLED screen and
 an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE)
-devices.
+devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.
+Divide by two to estimate occupancy, since everybody has a phone and a watch.
 
 It was inspired by Blatano <https://github.com/leighklotz/blatano> and designed
-for The Pawn Shop in San Francisco. The project utilizes libraries like
-`WS2812FX` for LED control and `BLEDevice` for BLE scanning.
+for [The Pawn Shop](https://thepawnshopsf.com/) in San Francisco. 
 
-![](docs/first-article.jpg)
-
+Getting in to The Pawn Shop requires a trinket, and this is the trinket I made for them.
 
 ![](docs/pawn-shop-trinket.jpg)
+![](docs/first-article.jpg)
 
 ## Dependencies
-- Arduino IDE (Latest version recommended)
+- Arduino IDE / ESP32S3 Dev Module core
 - Libraries:
   - `WS2812FX` for LED control
   - `U8g2lib` for OLED display
@@ -46,6 +46,7 @@ The sketch will periodically scan for BLE devices and display the number of devi
 - <https://github.com/olikraus/u8g2/>
 - <https://usa-m.banggood.com/ESP32-S3-0_42-Inch-OLED-Development-Board-ESP-32-RISC-V-WiFi-Bluetooth-For-Arduin-Micropython-p-1978776.html> etc
 - The Pawn Shop, SF: <https://www.forbes.com/sites/chelseadavis/2019/02/25/the-pawn-shop-a-secret-tapas-bar-in-san-franciscos-soma-neighborhood/>
+- https://thepawnshopsf.com
 
 ## Contributing
 Contributions are welcome! If you have any ideas, fixes, or improvements, please open an issue or submit a pull request.
