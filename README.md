@@ -2,13 +2,12 @@
 
 ## Introduction
 
+Getting in to [The Pawn Shop](https://thepawnshopsf.com/) Speakeasy in San Francisco requires a trinket to exchange, and this is the trinket I made.
+
 This project is a simple Arduino sketch that interacts with an OLED screen and
 an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE)
 devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.  
-It was inspired by Blatano <https://github.com/leighklotz/blatano> and designed
-for [The Pawn Shop](https://thepawnshopsf.com/) in San Francisco. 
-
-Getting in to The Pawn Shop Speakeasy requires a trinket to exchange, and this is the trinket I made for them.
+It was inspired by Blatano <https://github.com/leighklotz/blatano> 
 
 ![](docs/pawn-shop-trinket.jpg)
 ![](docs/first-article.jpg)
