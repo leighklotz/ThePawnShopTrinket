@@ -11,6 +11,7 @@ It was inspired by Blatano <https://github.com/leighklotz/blatano>
 
 ![](docs/pawn-shop-trinket.jpg)
 ![](docs/first-article.jpg)
+![](docs/maru109.jpg)
 
 ## Dependencies
 - Arduino IDE / ESP32S3 Dev Module core
