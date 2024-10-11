@@ -6,7 +6,8 @@ Getting in to [The Pawn Shop](https://thepawnshopsf.com/) Speakeasy in San Franc
 
 This project is a simple Arduino sketch that interacts with a tiny OLED screen and
 an LED, displaying messages and scanning for Bluetooth Low Energy (BLE)
-devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.  
+devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.
+
 It was inspired by Blatano <https://github.com/leighklotz/blatano> 
 
 ![](docs/pawn-shop-trinket.jpg)
