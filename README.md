@@ -4,13 +4,11 @@
 
 This project is a simple Arduino sketch that interacts with an OLED screen and
 an LED strip, displaying messages and scanning for Bluetooth Low Energy (BLE)
-devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.
-Divide by two to estimate occupancy, since everybody has a phone and a watch.
-
+devices. It shows a graphic, a screenful of text, and then a bouncing ball of BLE device count.  
 It was inspired by Blatano <https://github.com/leighklotz/blatano> and designed
 for [The Pawn Shop](https://thepawnshopsf.com/) in San Francisco. 
 
-Getting in to The Pawn Shop requires a trinket, and this is the trinket I made for them.
+Getting in to The Pawn Shop Speakeasy requires a trinket to exchange, and this is the trinket I made for them.
 
 ![](docs/pawn-shop-trinket.jpg)
 ![](docs/first-article.jpg)
@@ -37,6 +35,7 @@ Upon running the sketch, the device will perform the following:
 - Display a welcome message on the OLED screen and turn the LED to blue.
 - Scan for BLE devices and display the number of devices found in the center of the OLED screen, along with a circle around the text.
 - The LED color changes to different colors (red, blue, magenta) depending on the operation.
+- Divide by two to estimate occupancy, since everybody has a phone and a watch.
 
 ### BLE Scan
 The sketch will periodically scan for BLE devices and display the number of devices found. The scanning is initiated every loop iteration and lasts for 5 seconds.
